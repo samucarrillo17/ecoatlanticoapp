@@ -20,7 +20,7 @@ export type PostType ={
     tipo_publicacion:string,
     inscritos:number,
     admin:adminPostType
-    inscripcion_usuario: { usuario_id: string }[]; 
+    inscripcion_usuario?: { usuario_id: string }[]; 
 }
 
 export type adminPostType = {

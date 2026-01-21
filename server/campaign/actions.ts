@@ -47,15 +47,14 @@ export const getPostInfo = async () => {
 
     if (error) {
         console.error('Error obteniendo las campañas:', error.message)
-        return null
+        return []
     }
 
     const postsConEstado = (data as unknown as PostType[]) || []
 
     return postsConEstado.map((post) => ({
         ...post,
-        esta_inscrito: post.inscripcion_usuario && post.inscripcion_usuario.length > 0,
-        inscripcion_usuario: undefined 
+        esta_inscrito: post.inscripcion_usuario && post.inscripcion_usuario.length > 0 || false,
     }))
 
 }
