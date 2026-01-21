@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Fondo verde azulado -->
+  <rect width="32" height="32" fill="#2d7373"/>
+  
+  <!-- Primera ola (superior) -->
+  <path d="M 6 10 Q 8 8.5, 10 10 Q 12 11.5, 14 10 Q 16 8.5, 18 10 Q 20 11.5, 22 10 Q 24 8.5, 26 10" 
+        stroke="#e8e49a" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Segunda ola (centro) -->
+  <path d="M 6 16 Q 8 14.5, 10 16 Q 12 17.5, 14 16 Q 16 14.5, 18 16 Q 20 17.5, 22 16 Q 24 14.5, 26 16" 
+        stroke="#e8e49a" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"/>
+  
+  <!-- Tercera ola (inferior) -->
+  <path d="M 6 22 Q 8 20.5, 10 22 Q 12 23.5, 14 22 Q 16 20.5, 18 22 Q 20 23.5, 22 22 Q 24 20.5, 26 22" 
+        stroke="#e8e49a" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"/>
+</svg>
