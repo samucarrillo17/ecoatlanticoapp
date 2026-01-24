@@ -221,46 +221,82 @@ export async function getCampañasInscritas(){
     .filter(campaña => campaña !== null);
 }
 
-export async function confirmarAsistencia(inscripcionId: string) {
+export async function confirmarAsistenciaLote(inscripcionIds: string[]) {
   const supabase = await createClient()
 
-  // 1. Obtener los puntos. 
-  // Usamos una interfaz temporal para que TS entienda la estructura
-  const { data, error: fetchError } = await supabase
-    .from('inscripciones')
-    .select(`
-      campana_id,
-      campanas:campanas!campana_id (
-        puntos_impacto
-      )
-    `)
-    .eq('id', inscripcionId)
-    .single() // El .single() intenta devolver un objeto, no un array
-
-  if (fetchError || !data) {
-    return { success: false, message: "No se encontró la inscripción" }
+  if (inscripcionIds.length === 0) {
+    return { success: false, message: "No hay inscripciones para actualizar", actualizadas: 0 }
   }
 
-  // TypeScript a veces sigue creyendo que 'campanas' es un array o un objeto
-  // Hacemos una comprobación de seguridad o un casting rápido
-  const campana = data.campanas as unknown as { puntos_impacto: number };
-  const puntosParaAsignar = campana?.puntos_impacto || 0;
+  try {
+    // Obtener información de las inscripciones y campañas en una sola consulta
+    const { data: inscripciones, error: fetchError } = await supabase
+      .from('inscripciones')
+      .select(`
+        id,
+        campana_id,
+        campanas:campanas!campana_id (
+          puntos_impacto
+        )
+      `)
+      .in('id', inscripcionIds)
 
-  // 2. Actualizar el estado y asignar los puntos
-  const { error: updateError } = await supabase
-    .from('inscripciones')
-    .update({ 
-      estado: 'asistió', 
-      puntos_ganados: puntosParaAsignar,
-      fecha_asistencia: new Date().toISOString()
+    if (fetchError || !inscripciones) {
+      return { success: false, message: "No se encontraron las inscripciones", actualizadas: 0 }
+    }
+
+    // Preparar las actualizaciones con los puntos correspondientes
+    const actualizaciones = inscripciones.map(inscripcion => {
+      const campana = inscripcion.campanas as unknown as { puntos_impacto: number };
+      const puntosParaAsignar = campana?.puntos_impacto || 0;
+
+      return {
+        id: inscripcion.id,
+        estado: 'asistió',
+        puntos_ganados: puntosParaAsignar,
+        fecha_asistencia: new Date().toISOString()
+      }
     })
-    .eq('id', inscripcionId)
 
-  if (updateError) {
-    return { success: false, message: "Error al actualizar la asistencia" }
+    // Actualizar todas las inscripciones en una sola operación
+    // Nota: Supabase no soporta bulk update directo, así que usamos Promise.all
+    const resultados = await Promise.all(
+      actualizaciones.map(async (actualizacion) => {
+        const { error } = await supabase
+          .from('inscripciones')
+          .update({
+            estado: actualizacion.estado,
+            puntos_ganados: actualizacion.puntos_ganados,
+            fecha_asistencia: actualizacion.fecha_asistencia
+          })
+          .eq('id', actualizacion.id)
+        
+        return { id: actualizacion.id, error }
+      })
+    )
+
+    // Verificar si hubo errores
+    const errores = resultados.filter(r => r.error)
+    const exitosos = resultados.length - errores.length
+
+    if (errores.length > 0) {
+      return { 
+        success: false, 
+        message: `Se actualizaron ${exitosos} de ${inscripcionIds.length} asistencias`,
+        actualizadas: exitosos
+      }
+    }
+
+    return { 
+      success: true, 
+      message: "Todas las asistencias fueron confirmadas con éxito",
+      actualizadas: exitosos
+    }
+
+  } catch (error) {
+    console.error("Error al confirmar asistencias:", error)
+    return { success: false, message: "Error al procesar las asistencias", actualizadas: 0 }
   }
-
-  return { success: true, message: "Asistencia confirmada con éxito" }
 }
 
 export async function getUserStats() {

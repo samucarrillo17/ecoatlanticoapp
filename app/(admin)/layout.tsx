@@ -14,7 +14,7 @@ export default async function RootLayout({
   const nombreApellido = profile?.nombre + " " + profile?.apellido
   return (
     <SidebarProvider className="">
-      <AppSidebar nombreApellido={nombreApellido} />
+      <AppSidebar nombreApellido={nombreApellido} profilePhoto={profile?.foto_perfil} />
       <main className=" text-brand-balance w-full">
         <SidebarTrigger className="cursor-pointer " />
         <div className="px-10 py-2 ">

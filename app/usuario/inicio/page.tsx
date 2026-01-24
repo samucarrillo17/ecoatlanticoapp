@@ -27,7 +27,6 @@ export default async function page() {
                   Filtrar
               </DropdownMenuTrigger>
               <DropdownMenuContent className='bg-white text-brand-balance'>
-                  <DropdownMenuSeparator />
 
                   <DropdownMenuItem className='hover:bg-black/10 cursor-pointer'>
                     Campañas

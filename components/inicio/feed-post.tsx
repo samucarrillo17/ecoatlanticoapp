@@ -13,6 +13,7 @@ import { formatDate } from "@/app/_helper/dateFormatter"
 import { toast } from "sonner"
 import { inscribirCampana } from "@/server/user/actions"
 import { is } from "zod/v4/locales"
+import { useRouter } from "next/navigation"
 
 
 interface FeedPostProps {
@@ -20,6 +21,7 @@ interface FeedPostProps {
 }
 
 export function FeedPost({ post }: FeedPostProps) {
+  const router = useRouter()
   const [isInscrito, setIsInscrito] = useState(post.esta_inscrito)
   const [loading, setLoading] = useState(false)
   const fechaFormateada = formatDate(new Date(post.admin.created_at))
@@ -35,7 +37,7 @@ export function FeedPost({ post }: FeedPostProps) {
           color: "white",
         },
       })
-      
+      router.refresh()
     } else {
       toast.error(result.message)
     }

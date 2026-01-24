@@ -46,8 +46,11 @@ const items = [
   //   icon: Settings,
   // },
 ]
-
-export function AppSidebar({nombreApellido}: {nombreApellido?:string}) {
+interface AppSidebarProps {
+  nombreApellido: string
+  profilePhoto: string
+}
+export function AppSidebar({nombreApellido,profilePhoto}: AppSidebarProps) {
   const pathname = usePathname()
   
   
@@ -82,7 +85,7 @@ export function AppSidebar({nombreApellido}: {nombreApellido?:string}) {
                     <Link href="/dashboard/perfil">
                     <div className="flex gap-2 items-center text-sm">
                         <Avatar className="size-7">
-                          <AvatarImage src="" alt={`foto de perfil de `} className='object-cover' />
+                          <AvatarImage src={profilePhoto} alt={`foto de perfil de `} className='object-cover' />
                           <AvatarFallback className='bg-gray-200 text-xs font-semibold text-brand-balance'>
                             
                             {

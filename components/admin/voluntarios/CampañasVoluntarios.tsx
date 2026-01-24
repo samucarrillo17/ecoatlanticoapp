@@ -16,7 +16,7 @@ export default async function StatsVolunteer() {
     const post:CampañaConVoluntarios[] = await getVolutariosPorCamapaña()
     
   return (
-    <div className='md:grid md:gap-4 '>
+    <div className='grid gap-4 '>
         {post.map((post) => {
         const fecha = formatDate(new Date(post.fecha))
           return (
@@ -51,7 +51,7 @@ export default async function StatsVolunteer() {
                                 )
                             }
                         </div>
-                        <div className='flex gap-3'>
+                        <div className='flex gap-3 text-xs md:text-sm'>
                             <span className='flex gap-1 items-center'>
                                 <Calendar className="size-4 text-brand-blue "/>
                                 {fecha}
