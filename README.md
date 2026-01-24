@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eco Atlántico 🌊
+Eco Atlántico es una plataforma Full Stack diseñada para gestionar el impacto ambiental a través del voluntariado. Se parte de la problematica donde la fundacion no lograba captar jovenes para asistir a sus voluntariados, afirmaban que muchas veces habia el deseo pero no habia participacion. La aplicación conecta a jóvenes de diversas universidades con campañas y eventos ecológicos, utilizando un sistema de gamificación para incentivar la participación real y medible.
 
-## Getting Started
+## ✨ Características Principales
+### 👥 Gestión de Roles
+**Administrador:** Control total sobre la creación de campañas, gestión de cupos y verificación de asistencia.
 
-First, run the development server:
+**Voluntario:** Acceso a inscripciones, perfil personalizado y panel de métricas de impacto.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎮 Sistema de Gamificación e Impacto
+**Puntos de Impacto**: Cada campaña otorga puntos específicos.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Verificación de Asistencia:** Los puntos y horas solo se acreditan si el administrador marca al voluntario como "Asistido". Esto garantiza la veracidad del impacto generado.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Panel de Estadísticas:** Visualización en tiempo real de:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Total de horas de voluntariado.
 
-## Learn More
+- Historial de campañas inscritas.
 
-To learn more about Next.js, take a look at the following resources:
+- Acumulado de puntos de impacto.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Gestión de Campañas (Admin)
+- **Creación Detallada:** Título, descripción, horarios, cupos, puntos, fecha y recomendaciones.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Estado de Publicación:** Las campañas se crean como "Privadas" por defecto, permitiendo al administrador revisarlas antes de lanzarlas al feed público.
 
-## Deploy on Vercel
+- **Control de Cupos:** Gestión dinámica de la disponibilidad de plazas.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## 🚀 Stack Tecnológico
+La aplicación utiliza un stack moderno enfocado en la escalabilidad, el tipado fuerte y una experiencia de usuario fluida:
+
+- **Frontend:** React con Next.js (asumido por el uso de v0 y Shadcn).
+
+- **Backend & Auth:** Supabase (Base de datos PostgreSQL, Autenticación y Storage para fotos de perfil).
+
+- **Estilos:** Tailwind CSS & Shadcn/ui para componentes consistentes.
+
+- **Formularios:** React Hook Form con validación de esquemas mediante Zod.
+
+- **Tablas de Datos:** TanStack Table para filtrado avanzado de voluntarios por nombre.
+
+- **Lenguaje:** TypeScript para un desarrollo robusto y libre de errores de tipado.
+
+- **Diseño:** Potenciado por v0 para interfaces modernas y responsivas.
+
+## 📋 Flujo de Usuario
+**Para Voluntarios**
+- **Registro/Login:** El usuario se registra vinculando su universidad.
+
+- **Exploración:** Busca campañas activas en el feed.
+
+- **Inscripción:** Se registra en eventos con cupos disponibles.
+
+- **Acción y Cierre:** Tras asistir al evento, el admin valida su presencia y el voluntario ve reflejado su progreso en su panel de métricas.
+
+**Para Administradores**
+- **Dashboard:** Vista previa de sus publicaciones creadas.
+
+- **Publicación:** Cambio de estado de campañas de "Privado" a "Público".
+
+- **Control de Asistencia:** Interfaz de tabla para buscar voluntarios (vía TanStack Table) y marcar asistencia para liberar los puntos de impacto.
+
+## 📈 Próximas Mejoras
+-  Implementación de reportes descargables en PDF para los voluntarios.
+
+-  Sistema de notificaciones vía email para recordar fechas de campañas.
+
+-  Implementación visual del estado "Archivado" para campañas antiguas.
+
+- Filtrado de campañas tanto para el perfil admin como el de voluntarios
+
+- Accion de cancelar la inscripcion si el voluntario lo necesita
+
+- Metricas actualizadas en el panel de administrador
+
+- Obtencion de certificado al llegar a 10 horas totales de voluntariado y asi progresivamente
+
+
+**Eco Atlántico - Transformando la conciencia ambiental en acciones reales.**
