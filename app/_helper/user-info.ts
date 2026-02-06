@@ -9,6 +9,6 @@ export const getAuthProfile = cache(async () => {
   
   if (!user) return null
 
-  const profile = await getProfileInfo(user.id)
+  const profile = await getProfileInfo()
   return profile
 })
