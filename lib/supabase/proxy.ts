@@ -26,11 +26,6 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const adminRoutes = ["/dashboard/inicio", "/dashboard/crear-publicacion","/dashboard/voluntarios","/dashboard/gestionar-campañas"]
-
-  // const voluntarioRoutes = ["/feed","/activity","/profile"];
-  // const isVoluntarioRoute = voluntarioRoutes.includes(request.nextUrl.pathname)
-  
   const publicRoutes = ["/login", "/registrate", "/"]
   const { pathname } = request.nextUrl
   const isPublicRoute = publicRoutes.includes(pathname)
@@ -38,28 +33,23 @@ export async function updateSession(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user && !isPublicRoute) {
-    console.log("No autenticado, redirigiendo a login desde:", pathname)
     return NextResponse.redirect(new URL("/login", request.url))
   }
   
 
   if (user) {
-    const { data: userProfile } = await supabase
-        .from('usuarios')
-        .select('rol, estado')
-        .eq('id', user.id)
-        .single()
+    const userRole = user.app_metadata.user_role
 
     if (pathname === "/login" || pathname === "/registrate") {
-        const defaultUrl = userProfile?.rol === 'admin' ? '/dashboard/inicio' : '/usuario/inicio'
+        const defaultUrl = userRole === 'admin' ? '/dashboard/inicio' : '/usuario/inicio'
         return NextResponse.redirect(new URL(defaultUrl, request.url))
     }
 
-    if(userProfile?.rol === 'admin' && pathname.startsWith('/usuario')){
+    if(userRole === 'admin' && pathname.startsWith('/usuario')){
         return NextResponse.redirect(new URL('/dashboard/inicio', request.url))
     }
 
-    if(userProfile?.rol === 'voluntario' && pathname.startsWith('/dashboard')){
+    if(userRole === 'voluntario' && pathname.startsWith('/dashboard')){
         return NextResponse.redirect(new URL('/usuario/inicio', request.url))
     }
   }

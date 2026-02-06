@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Heart, MessageCircle, Share2, MapPin, Calendar, Users, Check, BadgeCheck, Timer, ShieldCheck, User, Loader } from "lucide-react"
+import { Heart, MessageCircle, Share2, MapPin, Calendar, Users, Check, BadgeCheck, Timer, ShieldCheck, User, Loader, LoaderCircleIcon } from "lucide-react"
 import Image from "next/image"
 import { Progress } from "../ui/progress"
 import { PostType } from "@/app/_type/Post"
@@ -39,7 +39,12 @@ export function FeedPost({ post }: FeedPostProps) {
       })
       router.refresh()
     } else {
-      toast.error(result.message)
+      toast.error(result.message,{
+        style: {
+          backgroundColor: "red",
+          color: "white",
+        },
+      })
     }
     setLoading(false)
   }
@@ -198,7 +203,7 @@ export function FeedPost({ post }: FeedPostProps) {
                   <Check className="size-4" /> Ya inscrito
                 </span>
               ) : loading ? (
-                <Loader className="size-4 animate:spin" />
+                <LoaderCircleIcon className="size-5 animate-spin" />
               ) : (
                 "Inscribirme"
               )}

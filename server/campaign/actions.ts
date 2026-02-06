@@ -6,34 +6,30 @@ import { updateSchemaPostType } from "@/schema/UpdateSchema"
 import { CampañaConVoluntarios } from "@/app/_type/CampañasPorVoluntario"
 import { PostType } from "@/app/_type/Post"
 
-export const getAllPostInfo = async (userId: string) => {
+export const getAllPostInfo = async () => {
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
     const { data, error } = await supabase
         .from('campanas')
         .select('*')
-        .eq('creado_por', userId)
+        .eq('creado_por', user?.id)
 
     if (error) {
         console.error('Error obteniendo la camapaña:', error.message)
         return []
     }
-   
+    
+    
 
     return data || []
 }
 
+//Obtiene la lista de post, quien lo publico y si el usuario activo esta inscrito o no en cada campaña, para mostrar el estado en el feed
 export const getPostInfo = async () => {
     const supabase = await createClient()
-    
-    // 1. Obtenemos el usuario actual para saber sus inscripciones
-    const { data: { user } } = await supabase.auth.getUser()
-
-    // 2. Realizamos la consulta
-    const { data, error } = await supabase
-        .from('campanas')
-        .select(`
-            *,
-            admin:usuarios!creado_por(
+    const [userResponse, dataResponse] = await Promise.all([
+        supabase.auth.getUser(),
+        supabase.from('campanas').select(`*, admin:usuarios!creado_por(
                 id,
                 nombre,
                 email,
@@ -41,33 +37,32 @@ export const getPostInfo = async () => {
                 foto_perfil,
                 created_at
             ),
-            inscripcion_usuario:inscripciones(usuario_id)
-        `)
-        .eq('inscripciones.usuario_id', user?.id || '')
-
-    if (error) {
-        console.error('Error obteniendo las campañas:', error.message)
+            inscripcion_usuario:inscripciones(usuario_id)`)
+    ])
+    
+    if (!userResponse.data.user) {
+        return []
+    }
+    
+    if (dataResponse.error) {
+        console.error('Error obteniendo las campañas:', dataResponse.error.message)
         return []
     }
 
-    const postsConEstado = (data as unknown as PostType[]) || []
+    const postsConEstado = (dataResponse.data as unknown as PostType[]) || []
 
     return postsConEstado.map((post) => ({
         ...post,
         esta_inscrito: post.inscripcion_usuario && post.inscripcion_usuario.length > 0 || false,
     }))
 
+    
+
 }
 
 export async function CrearPost(data: PostSchemaType) {
   const supabase = await createClient()
   
-  const { data: { user } } = await supabase.auth.getUser()
-
-  
-  if (!user) {
-    return { success: false, message: 'No autenticado' }
-  }
   const updatePortada = await uploadPortada(data.imagen_url as any)
   const imagen_url = updatePortada.success ? updatePortada.url : data.imagen_url
 
@@ -80,21 +75,26 @@ export async function CrearPost(data: PostSchemaType) {
       updated_at: new Date().toISOString()
     }
 
-    const { error: updateError } = await supabase
-      .from('campanas')
+    const [userResponse, dataResponse] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from('campanas')
       .insert(updateData)
-      .eq('id', user.id)
+    ])
 
-    if (updateError) {
-      console.error('Error actualizando portada:', updateError)
+  
+  if (!userResponse.data.user) {
+    return { success: false, message: 'No autenticado' }
+  }
+
+    if (dataResponse.error) {
+      console.error('Error creando la publicación:', dataResponse.error.message)
       return { success: false, message: 'Error al actualizar la portada' }
     }
 
-    revalidatePath('/', 'layout')
 
     return { 
       success: true, 
-      message: 'Portada actualizado correctamente'
+      message: 'Publicación creada correctamente'
     }
 
   } catch (error) {
@@ -177,30 +177,11 @@ export async function uploadPortada(image: File) {
     return { success: false, message: 'El archivo debe ser una imagen' }
   }
 
-  // const maxSize = 5 * 1024 * 1024 // 5MB
-  // if (file.size > maxSize) {
-  //   return { success: false, message: 'La imagen no puede superar 5MB' }
-  // }
 
   try {
     const fileExt = file.name.split('.').pop()
     const fileName = `${user.id}/${Date.now()}.${fileExt}`
 
-    // Eliminar foto anterior si existe
-    const { data: oldProfile } = await supabase
-      .from('campanas')
-      .select('imagen_url') // ← Campo de la tabla
-      .eq('creado_por', user.id)
-      .single()
-
-    if (oldProfile?.imagen_url) {
-      const oldPath = oldProfile.imagen_url.split('/').slice(-2).join('/')
-      await supabase.storage
-        .from('portada_post') 
-        .remove([oldPath])
-    }
-
-    // Subir nueva imagen
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('portada_post') 
       .upload(fileName, file, {
@@ -217,8 +198,6 @@ export async function uploadPortada(image: File) {
     const { data: { publicUrl } } = supabase.storage
       .from('portada_post') 
       .getPublicUrl(uploadData.path)
-
-    revalidatePath('/', 'layout')
 
     return { 
       success: true, 
@@ -256,7 +235,7 @@ export async function publicarPost(idPublicacion:string, isPublic:boolean) {
         console.error('Error actualizando la publicación:', updateError.message)
         return { success: false, message: 'Error al actualizar la publicación' }
       }
-      revalidatePath('/', 'layout')
+      revalidatePath('/dashboard/perfil')
       return { success: true, message: 'Publicación actualizada correctamente' }
     
   } catch (error) {

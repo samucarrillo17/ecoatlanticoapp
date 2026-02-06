@@ -30,14 +30,19 @@ export  function VerDetallesDialog({verDetalles,SetVerDetalles,post}:VerDetalles
         if (result.success) {
             setPublicar(false)
             SetVerDetalles(false)
-            toast.success("Pos publicado",{
+            toast.success("Post publicado",{
             style:{
             background:"green",
             color:"white"
             }
             })
         } else {
-            alert(result.message)
+            toast.error(result.message,{
+            style:{
+            background:"red",
+            color:"white"
+            }
+            })
         }
         
     } catch (error) {

@@ -7,19 +7,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { getPost } from '@/app/_helper/campaign-info'
-import { PostType } from '@/app/_type/Post'
+import { Main } from 'next/document'
+import { MainInicio } from '@/components/inicio/MainInicio'
+import { Suspense } from 'react'
+import { SkeletonPost } from '@/components/inicio/SkeletonPost'
+
 
 
 
 export default async function page() {
-    const post:PostType[] = await getPost()
-    if (!post) return null
+    
 
   return (
     <div>
       <main className="mx-auto max-w-3xl space-y-3">
-        <div className='flex justify-between px-4 items-center'>
+        {/* <div className='flex justify-between px-4 items-center'>
           <span className='text-sm text-gray-400'>Resultados (24)</span>
           <DropdownMenu>
               <DropdownMenuTrigger className='bg-brand-blue text-white cursor-pointer hover:bg-brand-blue/80 p-2 flex items-center gap-2 rounded-md text-sm'>
@@ -42,14 +44,10 @@ export default async function page() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-        </div>
-        
-
-        
-        
-        {post.map((post) => (
-          <FeedPost key={post.id} post={post} />
-        ))}
+        </div> */}
+        <Suspense fallback={<SkeletonPost />}>
+          <MainInicio />
+        </Suspense>
       </main>
     </div>
   )

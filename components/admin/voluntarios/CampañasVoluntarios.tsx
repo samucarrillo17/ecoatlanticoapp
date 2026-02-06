@@ -1,4 +1,4 @@
-import { getAllPost } from '@/app/_helper/campaign-info'
+
 import { formatDate } from '@/app/_helper/dateFormatter'
 import { PostType } from '@/app/_type/Post'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -12,7 +12,7 @@ import { CampañaConVoluntarios } from '@/app/_type/CampañasPorVoluntario'
 
 
 
-export default async function StatsVolunteer() {
+export default async function CampañasVoluntarios() {
     const post:CampañaConVoluntarios[] = await getVolutariosPorCamapaña()
     
   return (

@@ -82,7 +82,12 @@ export function DataTable<TData, TValue>({
         setLocalChanges(new Map()) // Limpiar cambios locales
         router.refresh() // Actualizar datos
       } else {
-        toast.error(result.message)
+        toast.error(result.message,{
+          style:{
+            background:"red",
+            color:"white"
+          }
+        })
       }
     })
   }

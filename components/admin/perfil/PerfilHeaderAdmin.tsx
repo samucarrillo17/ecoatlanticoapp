@@ -15,7 +15,7 @@ export async  function PerfilHeaderAdmin() {
     const fechaRegistroFormateada = formatDate(date)
     const nombreApellido = profile?.nombre + " " + profile?.apellido
   return (
-            <div className="border-b border-b-brand-balance/20 p-4">
+        <div className="p-4">
           <div className="mb-4 flex items-center gap-4">
             <Avatar className="size-20">
               <AvatarImage src={profile?.foto_perfil} alt={`foto de perfil de ${profile?.nombre} ${profile?.apellido}`} className='object-cover' />

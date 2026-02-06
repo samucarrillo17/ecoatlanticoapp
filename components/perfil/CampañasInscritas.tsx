@@ -12,7 +12,8 @@ export async function CampañasInscritas() {
       {
         campañasInscritas.map((campaña)=>{
             const fecha = formatDate(new Date(campaña.fecha))
-           return( <Card key={campaña.id} className="gap-4 border-2 border-black/10">
+           return( 
+           <Card key={campaña.id} className="gap-4 border-2 border-black/10">
             <CardHeader className='px-2'>
                 <div className="flex justify-between">
                     <h2 className="font-semibold text-lg">

@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { signup } from "@/server/auth/actions";
 import { toast } from "sonner";
+import { LoaderCircleIcon } from "lucide-react";
 
 
 
@@ -21,7 +22,7 @@ export default function RegistrationForm() {
 
     const {
         handleSubmit,
-        formState: { errors },
+        formState: { isSubmitting   },
         reset
     } = form;
 
@@ -174,8 +175,10 @@ export default function RegistrationForm() {
                             </FormItem>
                         )}
                     />
-                    <p className="text-center">¿Ya tienes cuenta? <Link href="/login" className="text-brand-blue">Inicia sesion</Link></p>
-                    <Button className="bg-brand-green text-white w-full rounded-2xl cursor-pointer hover:bg-brand-green/90" type="submit">Registrate</Button>
+                        <p className="text-center">¿Ya tienes cuenta? <Link href="/login" className="text-brand-blue">Inicia sesion</Link></p>
+                        <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
+                            {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Registrate"}
+                        </Button>
                     </form>
                 </Form>
             </CardContent>

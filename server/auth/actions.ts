@@ -1,9 +1,8 @@
 "use server"
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { User } from "@/schema/userSchema"
 import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 
 export const signup = async (value:User) => {
     const supabase = await createClient()
@@ -50,7 +49,6 @@ export const signup = async (value:User) => {
 export async function loginAction(email:string, password:string) {
   const supabase = await createClient()
 
-  // 1. Intentar el inicio de sesión
   const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -59,51 +57,12 @@ export async function loginAction(email:string, password:string) {
   if (authError || !authData.user) {
     return { success: false, message: authError?.message }
   }
-
-  // 2. Obtener el perfil con tu función
-  const profile = await getUserStatusRole(authData.user.id)
-
-  if (!profile) {
-    await supabase.auth.signOut()
-    return { success: false, message: "No se encontró perfil de usuario" }
-  }
-
-  // 3. Validar estado del usuario
-  if (profile.estado === 'inactivo' || profile.estado === 'pendiente') {
-    await supabase.auth.signOut()
-    return { success: false, message: "Tu cuenta está inactiva o pendiente de aprobación" }
-  }
-
-  // 4. Redirección basada en ROL
-  // IMPORTANTE: 'redirect' debe llamarse fuera de bloques try/catch si los usaras
-  let targetPath = '/usuario/inicio' // Ruta por defecto para voluntarios
-  
-  if (profile.rol === 'admin') {
-    targetPath = '/dashboard/inicio'
-  }
-
-  redirect(targetPath)
+  return { success: true, message: "LOGGED_IN" }
 }
 
 export const logout = async () => {
     const supabase = await createClient()
     await supabase.auth.signOut()
-    redirect("/")
+    redirect('/login')
 }
 
-export async function getUserStatusRole(userId: string) {
-  const supabase = await createClient()
-  
-  const { data, error } = await supabase
-    .from('usuarios')
-    .select('estado, rol')
-    .eq('id', userId)
-    .single()
-  
-  if (error) {
-    console.error('Error obteniendo perfil:', error.message)
-    return null
-  }
-  
-  return data
-}

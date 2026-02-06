@@ -1,5 +1,4 @@
 import { FeedHeader } from "@/components/inicio/feed-header";
-import { BottomNav } from "@/components/inicio/bottom-nav";
 export default function RootLayout({
   children,
 }: Readonly<{

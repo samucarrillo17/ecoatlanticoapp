@@ -6,12 +6,13 @@ import { RespuestaInscripcion } from "@/app/_type/Post"
 import { calcularDiferenciaHoras } from "@/app/_helper/calcularDiferenciaHoras"
 
 
-export const getProfileInfo = async (userId: string) => {
+export const getProfileInfo = async () => {
     const supabase = await createClient()
+    const {data: { user }} = await supabase.auth.getUser()
     const { data, error } = await supabase
         .from('usuarios')
         .select('*')
-        .eq('id', userId)
+        .eq('id', user?.id)
         .single()
 
     if (error) {
@@ -26,27 +27,30 @@ export const getProfileInfo = async (userId: string) => {
 export async function updateUserProfile(data: UpdateUser) {
   const supabase = await createClient()
   
-  const { data: { user } } = await supabase.auth.getUser()
-
   
-  if (!user) {
-    return { success: false, message: 'No autenticado' }
-  }
 
   try {
-    let finalAvatarUrl = data.foto_perfil;
 
-    if (data.foto_perfil instanceof File) {
-      const uploadResult = await uploadAvatar(data.foto_perfil);
-      if (!uploadResult.success) {
-        throw new Error(uploadResult.message);
-      }
-      finalAvatarUrl = uploadResult.url; 
-    } 
-  
-    else if (data.foto_perfil === null) {
-      finalAvatarUrl = null;
+    const [userResponse, dataResponse] = await Promise.all([
+      supabase.auth.getUser(),
+      (await uploadAvatar(data.foto_perfil))
+    ])
+
+    
+    if (!userResponse.data.user) {
+      return { success: false, message: 'No autenticado' }
     }
+
+
+    let finalAvatarUrl = data.foto_perfil;
+      
+      if (!dataResponse.success) {
+        throw new Error(dataResponse.message);
+      }else if (data.foto_perfil === null) {
+        finalAvatarUrl = null;
+      } else {
+        finalAvatarUrl = dataResponse.url; 
+      }
     
     const updateData = {
       ...data,
@@ -57,14 +61,14 @@ export async function updateUserProfile(data: UpdateUser) {
     const { error: updateError } = await supabase
       .from('usuarios')
       .update(updateData)
-      .eq('id', user.id)
+      .eq('id', userResponse.data.user.id)
 
     if (updateError) {
       console.error('Error actualizando perfil:', updateError)
       return { success: false, message: 'Error al actualizar el perfil' }
     }
 
-    revalidatePath('/', 'layout')
+    revalidatePath('/usuario/perfil')
 
     return { 
       success: true, 
@@ -102,24 +106,10 @@ export async function uploadAvatar(image: File) {
   }
 
   try {
+    
     const fileExt = file.name.split('.').pop()
     const fileName = `${user.id}/${Date.now()}.${fileExt}`
 
-    // Eliminar foto anterior si existe
-    const { data: oldProfile } = await supabase
-      .from('usuarios')
-      .select('foto_perfil') // ← Campo de la tabla
-      .eq('id', user.id)
-      .single()
-
-    if (oldProfile?.foto_perfil) {
-      const oldPath = oldProfile.foto_perfil.split('/').slice(-2).join('/')
-      await supabase.storage
-        .from('foto-perfil-usuario') // ← Nombre del bucket
-        .remove([oldPath])
-    }
-
-    // Subir nueva imagen
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('foto-perfil-usuario') // ← Nombre del bucket
       .upload(fileName, file, {
@@ -136,8 +126,6 @@ export async function uploadAvatar(image: File) {
     const { data: { publicUrl } } = supabase.storage
       .from('foto-perfil-usuario') // ← Nombre del bucket
       .getPublicUrl(uploadData.path)
-
-    revalidatePath('/', 'layout')
 
     return { 
       success: true, 
@@ -174,7 +162,7 @@ export async function inscribirCampana(idCampana:string) {
         console.error('Error al inscribirte a la campaña:', insertError.message)
         return { success: false, message: 'Error al inscribirte a la campaña' }
       }
-      revalidatePath('/', 'layout')
+      
       return { success: true, message: 'Te inscribiste correctamente' }
     
   }catch (error) {
@@ -186,28 +174,28 @@ export async function inscribirCampana(idCampana:string) {
 export async function getCampañasInscritas(){
   const supabase = await createClient()
 
-  const { data:{user} } = await supabase.auth.getUser()
+  const [userResponse, dataResponse] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from('inscripciones').select(`
+      campana_id,
+      campaña:campanas!campana_id(
+      id,
+      titulo,
+      descripcion,
+      fecha,
+      lugar,
+      tipo_publicacion,
+      hora_inicio,
+      hora_fin
+      )
+    `)
+  ])
 
-  if (!user) {
+  if (!userResponse.data.user) {
     return []
   }
-  const { data, error } = await supabase
-  .from('inscripciones')
-  .select(`
-    campana_id,
-    campaña:campanas!campana_id(
-    id,
-    titulo,
-    descripcion,
-    fecha,
-    lugar,
-    tipo_publicacion,
-    hora_inicio,
-    hora_fin
-    )
-  `)
-  .eq('usuario_id', user.id);
-
+  
+  const { data, error } = dataResponse
   if (error) {
     console.error('Error obteniendo la campaña:', error.message)
     return []
@@ -301,13 +289,9 @@ export async function confirmarAsistenciaLote(inscripcionIds: string[]) {
 
 export async function getUserStats() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) return { totalInscripciones: 0, puntosTotales: 0, horasTotales: 0 };
-
-  const { data: inscripciones } = await supabase
-    .from('inscripciones')
-    .select(`
+  const [userResponse, dataResponse] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from('inscripciones').select(`
       estado,
       puntos_ganados,
       campanas (
@@ -315,10 +299,17 @@ export async function getUserStats() {
         hora_fin
       )
     `)
-    .eq('usuario_id', user.id);
+  ])
 
-  if (!inscripciones) return { totalInscripciones: 0, puntosTotales: 0, horasTotales: 0 };
+  if (!userResponse.data.user) {
+    return { totalInscripciones: 0, puntosTotales: 0, horasTotales: 0 };
+  }
 
+  
+  
+  if (!dataResponse.data) return { totalInscripciones: 0, puntosTotales: 0, horasTotales: 0 };
+  
+  const inscripciones = dataResponse.data;
   const totalInscripciones = inscripciones.length;
 
   // Sumamos puntos

@@ -33,7 +33,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {  Camera, Edit, EllipsisVertical, LogOut, Moon, Trash2 } from "lucide-react";
+import {  Camera, Edit, EllipsisVertical, LoaderCircleIcon, LogOut, Moon, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { UserType } from "@/app/_type/User";
@@ -69,7 +69,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { isSubmitting },
     reset,
   } = form;
 
@@ -94,8 +94,6 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
     } catch (error) {
       console.error('Error:', error)
       alert('Error al actualizar el perfil')
-    } finally {
-      // setLoading(false)
     }
 
   };
@@ -342,9 +340,11 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
               )}
             />
             <SheetFooter>
-              <Button type="submit" className="cursor-pointer bg-brand-blue text-white">Save changes</Button>
+              <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
+                  {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Guardar"}
+              </Button>
               <SheetClose asChild>
-                <Button className="bg-red-400 text-white cursor-pointer">Close</Button>
+                <Button className="bg-red-400 text-white cursor-pointer">Cerrar</Button>
               </SheetClose>
             </SheetFooter>
           </form>

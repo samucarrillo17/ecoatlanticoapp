@@ -1,16 +1,22 @@
-import { getAllPost } from '@/app/_helper/campaign-info'
-import CampañasCreadas from '@/components/admin/perfil/CampañasCreadas'
-import { PerfilHeaderAdmin } from '@/components/admin/perfil/PerfilHeaderAdmin'
-import { PostType } from '@/app/_type/Post'
+import CampañasAdmin from "@/components/admin/perfil/CampañasAdmin";
+import { PerfilHeaderAdmin } from "@/components/admin/perfil/PerfilHeaderAdmin";
+import { SkeletonHeader } from "@/components/perfil/SkeletonHeader";
+import { LoaderCircleIcon } from "lucide-react";
+import { Suspense } from "react";
+
 
 
 export default async function page() {
-  const postInfo:PostType[] = await getAllPost()
-  if (!postInfo) return null
+
   return (
-    <div className='space-y-4'>
+    <>
+    <Suspense fallback={<SkeletonHeader />}>
       <PerfilHeaderAdmin />
-      <CampañasCreadas postInfo={postInfo} />
-    </div>
+    </Suspense>
+    <hr className="text-brand-balance/20 mb-4"/>
+    <Suspense fallback={<LoaderCircleIcon className='animate-spin size-7 text-gray-200 mx-auto' />}>
+      <CampañasAdmin/>
+    </Suspense>
+    </>
   )
 }

@@ -24,8 +24,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { loginSchema, LoginValues } from "@/schema/loginSchema";
 import { toast } from "sonner";
+import { LoaderCircleIcon } from "lucide-react";
 
 export function LoginForm() {
+  const router = useRouter();
 
 
   const form = useForm<LoginValues>({
@@ -35,7 +37,7 @@ export function LoginForm() {
       password: "",
     }
   });
-  const { handleSubmit } = form;
+  const { handleSubmit,formState: { isSubmitting } } = form;
 
   const onSubmitLogin = async (values: LoginValues) => {
     const { email, password } = values;
@@ -51,8 +53,9 @@ export function LoginForm() {
                 }
             })
       }
+      router.refresh();
     } catch (error) {
-      
+      return error
     }
   }
     
@@ -109,11 +112,8 @@ export function LoginForm() {
               )}
             />
              <p className="text-center">¿Aun no tienes cuenta? <Link href="/registrate" className="text-brand-blue">Registrate</Link></p>
-            <Button
-              className="bg-brand-green text-white w-full rounded-2xl cursor-pointer hover:bg-brand-green/90"
-              type="submit"
-            >
-                Iniciar sesión
+           <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
+                {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Iniciar sesión"}
             </Button>
           </form>
         </Form>

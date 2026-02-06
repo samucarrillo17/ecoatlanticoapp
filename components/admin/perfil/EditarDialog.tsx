@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import { Camera, Trash2 } from "lucide-react"
+import { Camera, LoaderCircleIcon, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { updatePostInfo } from "@/server/campaign/actions"
@@ -43,8 +43,9 @@ export  function EditarDialog({editar,Seteditar,post}:VerDetallesDialogProps) {
         const fileInputRef = useRef<HTMLInputElement>(null)
       const {
         handleSubmit,
-        formState: { errors },
+        formState: {isSubmitting },
         reset,
+        
       } = form
 
       useEffect(() => {
@@ -93,8 +94,6 @@ export  function EditarDialog({editar,Seteditar,post}:VerDetallesDialogProps) {
         } catch (error) {
           console.error('Error:', error)
           alert('Error al crear el post')
-        } finally {
-          // setLoading(false)
         }
     
       };
@@ -362,7 +361,9 @@ export  function EditarDialog({editar,Seteditar,post}:VerDetallesDialogProps) {
                         />
 
                         
-                    <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white">Guardar</Button>
+                    <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
+                        {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Guardar"}
+                    </Button>
                 </form>
             </Form>
             </ScrollArea>
