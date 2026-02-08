@@ -30,7 +30,7 @@ export const signup = async (value:User) => {
                 telefono,
                 universidad,
             },
-            emailRedirectTo: `${protocol}://${host}/`,
+            emailRedirectTo: `${protocol}://${host}/auth/callback`,
         }
     })
 
@@ -64,5 +64,19 @@ export const logout = async () => {
     const supabase = await createClient()
     await supabase.auth.signOut()
     redirect('/login')
+}
+
+export const resetEmailPasswordConfirmation = async (host: string) => {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (user?.email) {
+        await supabase.auth.resetPasswordForEmail(user.email, {
+            redirectTo: `${host}/auth/cambiar-contrasena`
+        })
+        return true
+    }
+  
+    return false
 }
 

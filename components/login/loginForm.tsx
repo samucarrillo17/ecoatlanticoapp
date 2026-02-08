@@ -60,7 +60,7 @@ export function LoginForm() {
   }
     
   return (
-    <Card className="border-2 border-brand-green/20 bg-brand-card">
+    <Card className="border-2 border-brand-green/20 bg-brand-card md:w-150 ">
       <CardHeader>
         <CardTitle className="text-brand-balance text-2xl">
           Iniciar sesión
@@ -91,26 +91,34 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-brand-balance">
-                    Contraseña
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-brand-green/30 focus:ring-brand-green/20 h-12 "
-                      type="password"
-                      placeholder="Contraseña"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col gap-2">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-brand-balance">
+                      Contraseña
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="border-brand-green/30 focus:ring-brand-green/20 h-12 "
+                        type="password"
+                        placeholder="Contraseña"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                )}
+              />
+              <div className="flex justify-end">
+                <Link href="/auth/olvide-contrasena" className="text-sm hover:underline text-brand-blue">
+                  Olvide mi contraseña
+                </Link>
+              </div>
+              
+            </div>
              <p className="text-center">¿Aun no tienes cuenta? <Link href="/registrate" className="text-brand-blue">Registrate</Link></p>
            <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
                 {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Iniciar sesión"}

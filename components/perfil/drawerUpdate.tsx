@@ -41,7 +41,7 @@ import { updateUserProfile, uploadAvatar } from "@/server/user/actions";
 import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import Link from "next/link";
-import { logout } from "@/server/auth/actions";
+import { logout, resetEmailPasswordConfirmation } from "@/server/auth/actions";
 
 interface UpdateUserProps {
   profile: UserType
@@ -98,6 +98,28 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
 
   };
 
+  const HandleUpdatePassword = async() => {
+    const host = window.location.origin
+    
+    const result = await resetEmailPasswordConfirmation(host)
+    if(!result){
+      toast.error("No se ha podido enviar el correo electrónico",{
+        style:{
+          background:"red",
+          color:"white"
+        }
+      })
+      return
+    }
+    toast.success("Solicitud enviada",{
+      description: "Verifica tu correo electrónico para cambiar tu contraseña",
+      style:{
+        background:"green",
+        color:"white"
+      }
+    })
+  }
+
   const universities = [
     "Universidad Simon Bolivar",
     "Universidad de la costa",
@@ -128,7 +150,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
                                 Salir
                             </DropdownMenuItem>
                     </DropdownMenuContent>
-                </DropdownMenu>
+      </DropdownMenu>
         
       <SheetContent className="bg-white p-2">
 
@@ -339,6 +361,9 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
                 </FormItem>
               )}
             />
+            <Button className="bg-brand-green text-white cursor-pointer" type="button" onClick={HandleUpdatePassword}>
+              Cambiar contraseña
+            </Button>
             <SheetFooter>
               <Button type="submit" className="bg-brand-blue w-full cursor-pointer h-10 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
                   {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Guardar"}

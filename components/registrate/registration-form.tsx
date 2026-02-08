@@ -51,7 +51,7 @@ export default function RegistrationForm() {
         }
   }
 
-  const universities =["Universidad Simon Bolivar","Universidad de la costa","Universidad Autonoma","Universidad metropolina","Universidad Libre"]
+  const universities =["Universidad Simon Bolivar","Universidad de la Costa","Universidad Autonoma","Universidad Metropolina","Universidad Libre"]
 
   return (
     <Card className="border-2 border-brand-green/20 bg-brand-card ">
@@ -133,11 +133,11 @@ export default function RegistrationForm() {
                                 </FormControl>
                                 <SelectContent className="bg-white text-brand-balance">
                                     {
-                                        universities.map((university, index) => (
-                                            <SelectGroup key={index}>
-                                            <SelectItem  value={university} className="hover:bg-black/5">{university} 
+                                        universities.map((university,index) => (
+                                            
+                                            <SelectItem key={index}  value={university} className="hover:bg-black/5">{university} 
                                             </SelectItem>
-                                            </SelectGroup>
+                                            
                                         ))
                                     }
                                 </SelectContent>
