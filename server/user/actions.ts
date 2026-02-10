@@ -16,8 +16,7 @@ export const getProfileInfo = async () => {
         .single()
 
     if (error) {
-        console.error('Error obteniendo perfil:', error.message)
-        return null
+        return 
     }
    
 

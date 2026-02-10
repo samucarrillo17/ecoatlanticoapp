@@ -23,7 +23,7 @@ import {
   UpdateUser,
 } from "@/schema/UpdateSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -42,6 +42,9 @@ import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import Link from "next/link";
 import { logout, resetEmailPasswordConfirmation } from "@/server/auth/actions";
+import { FormController } from "../FormController";
+import { SelectWrapper } from "../SelectWrapper";
+import { Field, FieldError } from "../ui/field";
 
 interface UpdateUserProps {
   profile: UserType
@@ -161,14 +164,14 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
           <SheetTitle>Actualiza tu perfil</SheetTitle>
         </SheetHeader>
 
-        <Form {...form} >
+        
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 p-2">
-            <FormField
+            <Controller
               control={form.control}
               name="foto_perfil"
-              render={({ field: { onChange,ref, ...field } }) => (
-                <FormItem>
-                  <FormControl>
+              render={({ field: { onChange,ref, ...field },fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  
                     <div className="flex flex-col items-center gap-2">
                       <Avatar className="size-24">
                         <AvatarImage src={avatarPreview || "/placeholder.svg"} className="object-cover" />
@@ -240,127 +243,64 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
                           }}
                         />
                     </div>
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
+                  {fieldState.invalid && <FieldError className="text-red-500 text-sm" errors={[fieldState.error]} />}
+             
+                </Field>
               )}
             />
 
-            <FormField
-              control={form.control}
+            <FormController
               name="nombre"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-brand-balance">
-                    ¿Como te llamas?
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-brand-green/30  focus:ring-brand-green/20 "
-                      placeholder="Nombre"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
-
-            <FormField
               control={form.control}
+              as={Input}
+              label="Nombre"
+              inputProps={{
+                  className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+              }}
+          />
+
+            <FormController
               name="apellido"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-brand-balance">
-                    ¿Cual es tu apellido?
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-brand-green/30  focus:ring-brand-green/20 "
-                      placeholder="Apellido"
-                      {...field}
-                   
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
-
-            <FormField
               control={form.control}
+              as={Input}
+              label="Apellido"
+              inputProps={{
+                  className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+              }}
+          />
+
+            <FormController
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-brand-balance">
-                    Correo electronico
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-brand-green/30 focus:ring-brand-green/20  "
-                      placeholder="ejemplo@universidad.edu.co"
-                      {...field}
-                     
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
+              control={form.control}
+              as={Input}
+              label="Correo"
+              inputProps={{
+                  className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+              }}
+          />
 
-            <FormField
-              control={form.control}
+            <FormController
               name="telefono"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-brand-balance">
-                    Numero de contacto
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="border-brand-green/30  focus:ring-brand-green/20"
-                      type="number"
-                      placeholder="ej: 3502454567"
-                      {...field}
-                      
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
-            <FormField
               control={form.control}
+              as={Input}
+              label="Telefono"
+              inputProps={{
+                  type:"number",
+                  className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+              }}
+          />
+            <FormController
               name="universidad"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Universidad</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="border-brand-green/30 w-full focus:ring-brand-green/20">
-                        <SelectValue placeholder="Selecciona una universidad" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-white text-brand-balance">
-                      {universities.map((university, index) => (
-                        <SelectGroup key={index}>
-                          <SelectItem
-                            value={university}
-                            className="hover:bg-black/5"
-                          >
-                            {university}
-                          </SelectItem>
-                        </SelectGroup>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
+              control={form.control}
+              as={SelectWrapper}
+              label="Universidad"
+              inputProps={{
+                  options:universities.map((university) => ({
+                    label: university,
+                    value: university,
+                  }))
+              }}
+          />
             <Button className="bg-brand-green text-white cursor-pointer" type="button" onClick={HandleUpdatePassword}>
               Cambiar contraseña
             </Button>
@@ -373,7 +313,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
               </SheetClose>
             </SheetFooter>
           </form>
-        </Form>
+        
 
       </ScrollArea>
       </SheetContent>

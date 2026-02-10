@@ -1,7 +1,7 @@
 "use client"    
 import { postSchema, PostSchemaType } from "@/schema/postSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { Card, CardContent } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,10 @@ import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CrearPost } from "@/server/campaign/actions"
 import { toast } from "sonner"
+import { FormController } from "@/components/FormController"
+import { Textarea } from "@/components/ui/textarea"
+import { SelectWrapper } from "@/components/SelectWrapper"
+import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 
 
 export  function FormCrear() {
@@ -76,15 +80,14 @@ export  function FormCrear() {
   return (
     <Card className="border-none" >
         <CardContent className="px-3">
-            <Form {...form} >
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full">
-                    <FormField
+                        <Controller
                             control={form.control}
                             name="imagen_url"
-                            render={({ field: { onChange, value,ref, ...field } }) => (
-                            <FormItem>
-                                <FormLabel className="text-brand-balance">Portada</FormLabel>
-                                <FormControl>
+                            render={({ field: { onChange, value,ref, ...field },fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel className="text-brand-balance">Portada</FieldLabel>
+                                
                                     <div className="flex flex-col items-center gap-2">
                                         <div className="w-full md:w-150 bg-gray-200 h-80 flex items-center justify-center cursor-pointer rounded-md"
                                         onClick={() => fileInputRef.current?.click()}
@@ -92,7 +95,7 @@ export  function FormCrear() {
                                             {portadaPreview ? (
                                                 <Image src={portadaPreview} alt="Preview" width={300} height={300} className="w-full h-full object-cover"
                                                 
-                                                 />
+                                                />
                                             ) : (
                                                 <span className="text-gray-500">
                                                     <Camera className="size-10 text-gray-400"  />
@@ -146,174 +149,123 @@ export  function FormCrear() {
                                             }}
                                             />
                                         </div>
-                                </FormControl>
-                                <FormMessage className="text-red-500" />
-                            </FormItem>
+                                
+                                {fieldState.invalid && <FieldError className="text-red-500 text-sm" errors={[fieldState.error]} />}
+                            </Field>
                             )}
                         />
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="titulo"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Titulo</FormLabel>
-                                    <FormControl>
-                                        <Input className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Titulo" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Input}
+                            label="Titulo"
+                            placeholder="Titulo"
+                            inputProps={{
+                                className: "border-brand-green/30  focus:ring-brand-green/20 "
+                            }}
                         />
 
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="descripcion"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Descripcion</FormLabel>
-                                    <FormControl>
-                                        <textarea  className="border-black/10 border p-2 rounded-md h-40 focus:ring-brand-green/20 resize-none " 
-                                        placeholder="Descripcion" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Textarea}
+                            label="Descripcion"
+                            placeholder="Descripcion"
+                            inputProps={{
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-40 resize-none "
+                            }}
                         />
                     <div className="grid grid-cols-3 gap-3">
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="fecha"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Fecha</FormLabel>
-                                    <FormControl>
-                                        <Input type="date" className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Fecha" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
                             control={form.control}
+                            as={Input}
+                            label="Fecha"
+                            inputProps={{
+                                type:"date",
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+                            }}
+                        />
+                        <FormController
                             name="hora_inicio"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Hora de inicio</FormLabel>
-                                    <FormControl>
-                                        <Input type="time" className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Hora" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
                             control={form.control}
+                            as={Input}
+                            label="Hora inicio"
+                            inputProps={{
+                                type:"time",
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+                            }}
+                        />
+                        <FormController
                             name="hora_fin"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Hora de fin</FormLabel>
-                                    <FormControl>
-                                        <Input type="time" className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Hora" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Input}
+                            label="Hora fin"
+                            inputProps={{
+                                type:"time",
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+                            }}
                         />
                     </div>
 
                     <div className="grid md:grid-cols-4 grid-cols-2 gap-2">
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="lugar"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Lugar</FormLabel>
-                                    <FormControl>
-                                        <Input className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Lugar" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Input}
+                            label="Lugar"
+                            inputProps={{
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+                            }}
                         />
 
                         
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="cupos_totales"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Cupo</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Cupos" {...field} 
-                                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Input}
+                            label="Cupos totales"
+                            inputProps={{
+                                type:"number",
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+                            }}
                         />
 
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="puntos_impacto"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Puntos</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" className="border-brand-green/30 h-10  focus:ring-brand-green/20 " 
-                                        placeholder="Puntos de impacto" {...field} 
-                                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500"
-                                     />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Input}
+                            label="Puntos"
+                            inputProps={{
+                                type:"number",
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
+                            }}
                         />
 
-                        <FormField
-                            control={form.control}
+                        <FormController
                             name="tipo_publicacion"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Tipo</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value} >
-                                <FormControl className="h-10">
-                                    <SelectTrigger className="border-brand-green/30 w-full  focus:ring-brand-green/20">
-                                        <SelectValue placeholder="Selecciona una universidad" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="bg-white text-brand-balance">
-                                    <SelectItem value="evento" className="hover:bg-black/5">Evento</SelectItem>
-                                    <SelectItem value="campaña" className="hover:bg-black/5">Campaña</SelectItem>
-                                </SelectContent>
-                                </Select>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={SelectWrapper}
+                            label="Tipo"
+                            inputProps={{
+                               options:[
+                                {label:"Evento", value:"Evento"},
+                                {label:"Campaña", value:"Campaña"}
+                               ],
+                             
+                            }}
                         />
                     </div>
 
-                        <FormField
-                            control={form.control}
+                       <FormController
                             name="recomendaciones"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-brand-balance">Recomendaciones</FormLabel>
-                                    <FormControl>
-                                        <textarea className="border-black/10 max-h-20 border p-2 rounded-md  focus:ring-brand-green/20 resize-none "
-                                        
-                                        placeholder="ej: LLevar protector solar, agua etc..." {...field} />
-                                    </FormControl>
-                                    <FormMessage className="text-red-500" />
-                                </FormItem>
-                            )}
+                            control={form.control}
+                            as={Textarea}
+                            label="Recomendaciones"
+                            placeholder="ej: LLevar protector solar, agua etc..."
+                            inputProps={{
+                                className: "border-brand-green/30  focus:ring-brand-green/20 h-20 resize-none "
+                            }}
                         />
 
                         
@@ -321,7 +273,7 @@ export  function FormCrear() {
                         {isSubmitting ? <LoaderCircleIcon className="animate-spin size-5" /> : "Crear"}
                     </Button>
                 </form>
-            </Form>
+            
         </CardContent>
       
     </Card>

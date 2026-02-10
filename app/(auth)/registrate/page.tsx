@@ -1,7 +1,6 @@
 
 import RegistrationForm from "@/components/registrate/registration-form";
-import { ArrowLeft,Waves } from "lucide-react";
-import Link from "next/link";
+
 
 
 

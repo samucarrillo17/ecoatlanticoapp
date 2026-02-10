@@ -30,10 +30,11 @@ export async function updateSession(request: NextRequest) {
   const publicRoutes = ["/login", "/registrate", "/auth/callback", "/auth/olvide-contrasena","/auth/cambiar-contrasena", "/"]
   const { pathname } = request.nextUrl
   const isPublicRoute = publicRoutes.includes(pathname)
+  const isProtectedArea = pathname.startsWith('/dashboard') || pathname.startsWith('/usuario')
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user && !isPublicRoute) {
+  if (!user && !isPublicRoute && isProtectedArea) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
   

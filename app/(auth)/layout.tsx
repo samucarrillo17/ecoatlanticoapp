@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen bg-brand-yellow/10 ">
+    <div className="min-h-screen ">
     <div className="max-w-6xl mx-auto px-4 space-y-10 py-6  ">
         <div className="flex justify-between">
           <Link href={"/"} className="text-brand-blue flex items-center gap-2">

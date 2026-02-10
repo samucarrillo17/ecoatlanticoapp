@@ -1,29 +1,45 @@
+"use client"
 import { Button } from "@/components/ui/button";
-import { House } from "lucide-react";
-import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+
 
 
 export default function notfound() {
   return (
-    <div className="flex justify-center  h-screen bg-brand-yellow/10">
-      <div className=" flex flex-col items-center text-center">
-        <div className="flex items-center">
-            <span className="text-[300px] font-bold text-brand-blue text-center">4</span>
-            <Image src={"/earth.svg" } width={260} height={260} alt="hola"/>
-            <span className="text-[300px] font-bold text-brand-blue text-center">4</span>
-        </div>
-       
-        <p className="text-brand-balance w-2xl">Parece que te has desviado del sendero. Esta página aún no ha sido reforestada o ha desaparecido del mapa digital.</p>
-        <Link href="/" className="mt-4">
-            <Button className="flex gap-3 items-center bg-brand-blue text-white"
-            >
-                <House className="size-5" />
-                Volver a casa</Button>
-        </Link>
-      </div>
     
-      
+     <div className="min-h-screen w-full bg-[#f0fdfa] relative">
+      {/* Mint Fresh Breeze Background */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(45deg, 
+              rgba(240,253,250,1) 0%, 
+              rgba(204,251,241,0.7) 30%, 
+              rgba(153,246,228,0.5) 60%, 
+              rgba(94,234,212,0.4) 100%
+            ),
+            radial-gradient(circle at 40% 30%, rgba(255,255,255,0.8) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(167,243,208,0.5) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, rgba(209,250,229,0.6) 0%, transparent 45%)
+          `,
+        }}
+      />
+      {/* Your Content/Components */}
+      <div className="relative flex flex-col justify-center items-center h-screen">
+        <div className="flex flex-col items-center gap-8">
+          <h1 className="text-xl md:text-3xl text-brand-green font-light">Lo sentimos, no encontramos esta pagina</h1>
+          <Button className="flex gap-2 items-center rounded-full border border-brand-green/30 hover:transform hover:scale-102 cursor-pointer" variant="outline">
+            <ArrowLeft className="size-4 text-brand-green" />
+            <Link href="/login" className="text-brand-green text-sm">Volver a casa</Link>
+          </Button>
+        
+        </div>
+        
+      </div>
     </div>
+      
+    
   )
 }

@@ -5,11 +5,15 @@ import { PhotoGallery } from "@/components/landing/photo-gallery";
 import { SocialProof } from "@/components/landing/social-proof";
 import { Testimonials } from "@/components/landing/testimonials";
 import { UpcomingEvents } from "@/components/landing/upcoming-events";
+import { getProfileInfo } from "@/server/user/actions";
+import { UserType } from "./_type/User";
 
-export default function Home() {
+export default async function Home() {
+  const data:UserType | null = await getProfileInfo()
+  
   return (
      <main className="">
-      <HeroSection />
+      <HeroSection data={data} />
       <ImpactStats />
       <UpcomingEvents />
       <PhotoGallery />

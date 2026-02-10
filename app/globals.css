@@ -1,9 +1,5 @@
-body {
-  font-family: var(--font-geist-sans), sans-serif;
-}
 @import "tailwindcss";
 @import "tw-animate-css";
-
 
 @theme{
   --color-brand-blue: #1f797c; /* #primary - azul oscuro */
@@ -13,5 +9,4 @@ body {
   --color-brand-card: #fefffe;
   --color-brand-balance: #1f4046
 }
-
 
