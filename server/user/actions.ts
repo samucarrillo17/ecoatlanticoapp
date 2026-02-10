@@ -170,14 +170,14 @@ export async function inscribirCampana(idCampana:string) {
   }
 }
 
-export async function getCampañasInscritas(){
+export async function getCampanasInscritas(){
   const supabase = await createClient()
 
   const [userResponse, dataResponse] = await Promise.all([
     supabase.auth.getUser(),
     supabase.from('inscripciones').select(`
       campana_id,
-      campaña:campanas!campana_id(
+      campana:campanas!campana_id(
       id,
       titulo,
       descripcion,
@@ -204,8 +204,8 @@ export async function getCampañasInscritas(){
   
   
   return inscripciones
-    .map(item => item.campaña)
-    .filter(campaña => campaña !== null);
+    .map(item => item.campana)
+    .filter(campana => campana !== null);
 }
 
 export async function confirmarAsistenciaLote(inscripcionIds: string[]) {

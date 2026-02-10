@@ -1,4 +1,4 @@
-export type CampañaConVoluntarios = {
+export type CampanaConVoluntarios = {
     id: string
     titulo: string,
     lugar: string,

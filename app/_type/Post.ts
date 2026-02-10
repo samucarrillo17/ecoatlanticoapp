@@ -34,7 +34,7 @@ export type adminPostType = {
 
 export type RespuestaInscripcion = {
   campana_id: string;
-  campaña: {
+  campana: {
     id: string;
     titulo: string;
     descripcion: string;

@@ -4,16 +4,16 @@ import { PostType } from '@/app/_type/Post'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
 import { Card} from '@/components/ui/card'
-import { getVolutariosPorCamapaña } from '@/server/campaign/actions'
+import { getVoluntariosPorCampana } from '@/server/campaign/actions'
 import { Calendar, MapPin, Users } from 'lucide-react'
 import { DataTable } from "@/components/admin/voluntarios/datatable"
 import {Columns} from "@/components/admin/voluntarios/columns"
-import { CampañaConVoluntarios } from '@/app/_type/CampanasPorVoluntario'
+import { CampanaConVoluntarios } from '@/app/_type/CampanasPorVoluntario'
 
 
 
 export default async function CampañasVoluntarios() {
-    const post:CampañaConVoluntarios[] = await getVolutariosPorCamapaña()
+    const post:CampanaConVoluntarios[] = await getVoluntariosPorCampana()
     
   return (
     <div className='grid gap-4 '>

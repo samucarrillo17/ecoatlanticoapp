@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { PostSchemaType } from "@/schema/postSchema"
 import { updateSchemaPostType } from "@/schema/UpdateSchema"
-import { CampañaConVoluntarios } from "@/app/_type/CampanasPorVoluntario"
+import { CampanaConVoluntarios } from "@/app/_type/CampanasPorVoluntario"
 import { PostType } from "@/app/_type/Post"
 
 export const getAllPostInfo = async () => {
@@ -244,7 +244,7 @@ export async function publicarPost(idPublicacion:string, isPublic:boolean) {
   }
 }
 
-export async function getVolutariosPorCamapaña():Promise<CampañaConVoluntarios[]> {
+export async function getVoluntariosPorCampana():Promise<CampanaConVoluntarios[]> {
   const supabase = await createClient()
 
   const { data:{user} } = await supabase.auth.getUser()
@@ -281,9 +281,9 @@ export async function getVolutariosPorCamapaña():Promise<CampañaConVoluntarios
     console.error('Error obteniendo la campaña:', error.message)
     return []
   }
-  const dataFormateada: CampañaConVoluntarios[] = (data || []).map(campaña => ({
-    ...campaña,
-    inscripciones: campaña.inscripciones.map((ins: any) => ({
+  const dataFormateada: CampanaConVoluntarios[] = (data || []).map(campana => ({
+    ...campana,
+    inscripciones: campana.inscripciones.map((ins: any) => ({
       id: ins.id,
       estado: ins.estado,
       puntos_ganados: ins.puntos_ganados,

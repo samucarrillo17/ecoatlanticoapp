@@ -1,4 +1,4 @@
-import { getCampañasInscritas } from '@/server/user/actions'
+import { getCampanasInscritas } from '@/server/user/actions'
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader } from '../ui/card'
 import { Badge } from '../ui/badge'
@@ -6,28 +6,28 @@ import { formatDate } from '@/app/_helper/dateFormatter'
 import { Calendar, MapPin, Timer, TimerOff } from 'lucide-react'
 
 export async function CampanasInscritas() {
-  const campañasInscritas = await getCampañasInscritas()
+  const campanasInscritas = await getCampanasInscritas()
   return (
     <div className='grid md:grid-cols-2 gap-3'>
       {
-        campañasInscritas.map((campaña)=>{
-            const fecha = formatDate(new Date(campaña.fecha))
+        campanasInscritas.map((campana)=>{
+            const fecha = formatDate(new Date(campana.fecha))
            return( 
-           <Card key={campaña.id} className="gap-4 border-2 border-black/10">
+           <Card key={campana.id} className="gap-4 border-2 border-black/10">
             <CardHeader className='px-2'>
                 <div className="flex justify-between">
                     <h2 className="font-semibold text-lg">
-                        {campaña.titulo}
+                        {campana.titulo}
                     </h2>
                 </div>
               <CardDescription>
-                <p>{campaña.descripcion}</p>
+                <p>{campana.descripcion}</p>
               </CardDescription>
 
               <div className="flex gap-2 py-3 border-b border-black/5 text-xs">
 
               {
-                campaña.tipo_publicacion === "evento" && (
+                campana.tipo_publicacion === "evento" && (
                   <Badge
                   className="bg-[#fcfee8] text-[#a8b05f] border-[#f8fbd0]"
                   >
@@ -36,7 +36,7 @@ export async function CampanasInscritas() {
                 )
               }
               {
-                campaña.tipo_publicacion === "campaña" && (
+                campana.tipo_publicacion === "campaña" && (
                   <Badge
                   className="bg-[#f5f3dc] text-[#8a8c4e] border-[#ebe9c3]"
                   >
@@ -60,7 +60,7 @@ export async function CampanasInscritas() {
                         <MapPin className="size-5 text-brand-blue" />
                         <span className=''>
                             <p className='font-semibold text-gray-400'>Lugar:</p>
-                            {campaña.lugar}
+                            {campana.lugar}
                         </span>
                     </div>
 
@@ -68,7 +68,7 @@ export async function CampanasInscritas() {
                         <Timer className="size-5 text-brand-blue" />
                         <span className=''>
                             <p className='font-semibold text-gray-400'>Hora inicio:</p>
-                            {campaña.hora_inicio}
+                            {campana.hora_inicio}
                         </span>
                     </div>
 
@@ -76,7 +76,7 @@ export async function CampanasInscritas() {
                         <TimerOff className="size-5 text-brand-blue" />
                         <span className=''>
                             <p className='font-semibold text-gray-400'>Hora fin:</p>
-                            {campaña.hora_fin}
+                            {campana.hora_fin}
                         </span>
                     </div>
                     
