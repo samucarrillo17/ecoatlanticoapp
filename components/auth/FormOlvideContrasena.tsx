@@ -14,6 +14,7 @@ type FormData = {
 }
 
 export function FormOlvideContrasena() {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL!
     const { handleSubmit, formState: { isSubmitting }, register } = useForm<FormData>()
 
     const onSubmit = async (values: FormData) => {
@@ -21,7 +22,7 @@ export function FormOlvideContrasena() {
         
         const supabase = createClient()
         const { error } = await supabase.auth.resetPasswordForEmail(values.correo, {
-            redirectTo: `${host}/auth/cambiar-contrasena`
+            redirectTo: `${siteUrl}/auth/cambiar-contrasena`
         })
 
         if (error) {

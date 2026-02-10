@@ -4,12 +4,10 @@ import { User } from "@/schema/userSchema"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL!
+
 export const signup = async (value:User) => {
     const supabase = await createClient()
-    const headersList = await headers();
-    const host = headersList.get('host'); // ej: localhost:3000 o mi-app.com
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-
     const email = value.email
     const password = value.password
     const nombre = value.nombre
@@ -17,7 +15,6 @@ export const signup = async (value:User) => {
     const telefono = value.telefono
     const universidad = value.universidad
 
-    
     // signUp crea el usuario. Los datos extra DEBEN ir en options.data 
     // para que Supabase los guarde en la columna user_metadata.
     const {data,error } = await supabase.auth.signUp({
@@ -30,7 +27,8 @@ export const signup = async (value:User) => {
                 telefono,
                 universidad,
             },
-            emailRedirectTo: `${protocol}://${host}/auth/callback`,
+            emailRedirectTo: `${siteUrl}/auth/callback`
+,
         }
     })
 
@@ -66,13 +64,13 @@ export const logout = async () => {
     redirect('/login')
 }
 
-export const resetEmailPasswordConfirmation = async (host: string) => {
+export const resetEmailPasswordConfirmation = async () => {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (user?.email) {
         await supabase.auth.resetPasswordForEmail(user.email, {
-            redirectTo: `${host}/auth/cambiar-contrasena`
+            redirectTo: `${siteUrl}/auth/cambiar-contrasena`
         })
         return true
     }
