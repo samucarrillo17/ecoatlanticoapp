@@ -102,9 +102,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
   };
 
   const HandleUpdatePassword = async() => {
-    const host = window.location.origin
-    
-    const result = await resetEmailPasswordConfirmation(host)
+    const result = await resetEmailPasswordConfirmation()
     if(!result){
       toast.error("No se ha podido enviar el correo electrónico",{
         style:{
