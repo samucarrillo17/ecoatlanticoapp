@@ -5,7 +5,7 @@ import { Badge } from '../ui/badge'
 import { formatDate } from '@/app/_helper/dateFormatter'
 import { Calendar, MapPin, Timer, TimerOff } from 'lucide-react'
 
-export async function CampañasInscritas() {
+export async function CampanasInscritas() {
   const campañasInscritas = await getCampañasInscritas()
   return (
     <div className='grid md:grid-cols-2 gap-3'>

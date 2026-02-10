@@ -1,4 +1,4 @@
-import CampañasCreadas from '@/components/admin/perfil/CampañasCreadas'
+import CampañasCreadas from '@/components/admin/perfil/CampanasCreadas'
 import { PerfilHeaderAdmin } from '@/components/admin/perfil/PerfilHeaderAdmin'
 import { PostType } from '@/app/_type/Post'
 import { getAllPostInfo } from '@/server/campaign/actions'

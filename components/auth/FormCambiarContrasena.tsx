@@ -14,7 +14,7 @@ import { ArrowLeft, EyeClosedIcon, EyeIcon, LoaderCircleIcon } from "lucide-reac
 import { useState } from "react"
 import { Field, FieldError, FieldLabel } from "../ui/field"
 
-export function FormCambiarContraseña() {
+export function FormCambiarContrasena() {
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const form = useForm<CambiarContrasenaType>({

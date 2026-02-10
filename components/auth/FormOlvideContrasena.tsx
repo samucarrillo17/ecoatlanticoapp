@@ -13,7 +13,7 @@ type FormData = {
   correo: string
 }
 
-export function FormOlvideContraseña() {
+export function FormOlvideContrasena() {
     const { handleSubmit, formState: { isSubmitting }, register } = useForm<FormData>()
 
     const onSubmit = async (values: FormData) => {

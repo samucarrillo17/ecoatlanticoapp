@@ -1,4 +1,4 @@
-import { FormOlvideContraseña } from "@/components/auth/FormOlvideContraseña";
+import { FormOlvideContraseña } from "@/components/auth/FormOlvideContrasena";
 
 
 

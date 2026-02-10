@@ -2,7 +2,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Mail, Phone } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
-import { InscripcionConVoluntario } from "@/app/_type/CampañasPorVoluntario"
+import { InscripcionConVoluntario } from "@/app/_type/CampanasPorVoluntario"
 
 export const Columns: ColumnDef<InscripcionConVoluntario>[] = [
   {

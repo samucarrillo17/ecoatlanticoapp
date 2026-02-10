@@ -1,4 +1,4 @@
-import CampañasAdmin from "@/components/admin/perfil/CampañasAdmin";
+import CampañasAdmin from "@/components/admin/perfil/CampanasAdmin";
 import { PerfilHeaderAdmin } from "@/components/admin/perfil/PerfilHeaderAdmin";
 import { SkeletonHeader } from "@/components/perfil/SkeletonHeader";
 import { LoaderCircleIcon } from "lucide-react";

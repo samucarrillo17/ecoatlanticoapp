@@ -8,7 +8,7 @@ import { getVolutariosPorCamapaña } from '@/server/campaign/actions'
 import { Calendar, MapPin, Users } from 'lucide-react'
 import { DataTable } from "@/components/admin/voluntarios/datatable"
 import {Columns} from "@/components/admin/voluntarios/columns"
-import { CampañaConVoluntarios } from '@/app/_type/CampañasPorVoluntario'
+import { CampañaConVoluntarios } from '@/app/_type/CampanasPorVoluntario'
 
 
 

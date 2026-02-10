@@ -1,4 +1,4 @@
-import { CampañasInscritas } from '@/components/perfil/CampañasInscritas'
+import { CampañasInscritas } from '@/components/perfil/Campanasinscritas'
 import { Headerprofile } from '@/components/perfil/Headerprofile'
 import { SkeletonHeader } from '@/components/perfil/SkeletonHeader'
 import { LoaderCircleIcon } from 'lucide-react'

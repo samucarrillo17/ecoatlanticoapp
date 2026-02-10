@@ -1,6 +1,6 @@
 
-import CampañasVoluntarios from '@/components/admin/voluntarios/CampañasVoluntarios'
-import { SkeletonCampañasVoluntarios } from '@/components/admin/voluntarios/SkeletonCampañasVoluntarios'
+import CampañasVoluntarios from '@/components/admin/voluntarios/CampanasVoluntarios'
+import { SkeletonCampañasVoluntarios } from '@/components/admin/voluntarios/SkeletonCampanasVoluntarios'
 import { Suspense } from 'react'
 
 export default async function page() {

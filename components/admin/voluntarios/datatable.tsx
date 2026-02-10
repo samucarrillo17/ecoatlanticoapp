@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import React, { useState, useTransition } from "react"
-import { InscripcionConVoluntario } from "@/app/_type/CampañasPorVoluntario"
+import { InscripcionConVoluntario } from "@/app/_type/CampanasPorVoluntario"
 import { confirmarAsistenciaLote } from "@/server/user/actions"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"

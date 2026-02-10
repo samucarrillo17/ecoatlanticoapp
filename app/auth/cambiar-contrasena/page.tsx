@@ -1,4 +1,4 @@
-import { FormCambiarContraseña } from "@/components/auth/FormCambiarContraseña";
+import { FormCambiarContraseña } from "@/components/auth/FormCambiarContrasena";
 export default function page() {
    
   return (

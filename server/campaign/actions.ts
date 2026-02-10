@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { PostSchemaType } from "@/schema/postSchema"
 import { updateSchemaPostType } from "@/schema/UpdateSchema"
-import { CampañaConVoluntarios } from "@/app/_type/CampañasPorVoluntario"
+import { CampañaConVoluntarios } from "@/app/_type/CampanasPorVoluntario"
 import { PostType } from "@/app/_type/Post"
 
 export const getAllPostInfo = async () => {
