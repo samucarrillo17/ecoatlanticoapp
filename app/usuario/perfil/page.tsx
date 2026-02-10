@@ -1,4 +1,4 @@
-import { CampañasInscritas } from '@/components/perfil/Campanasinscritas'
+import { CampanasInscritas } from '@/components/perfil/Campanasinscritas'
 import { Headerprofile } from '@/components/perfil/Headerprofile'
 import { SkeletonHeader } from '@/components/perfil/SkeletonHeader'
 import { LoaderCircleIcon } from 'lucide-react'
@@ -16,7 +16,7 @@ export default async function page() {
         
       <Suspense fallback={<LoaderCircleIcon className='animate-spin size-7 text-gray-200 mx-auto' />}>
         <div className="p-4 ">
-            <CampañasInscritas/>
+            <CampanasInscritas/>
         </div>
       </Suspense>
       </main>

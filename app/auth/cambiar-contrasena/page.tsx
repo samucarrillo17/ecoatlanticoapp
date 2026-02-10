@@ -1,9 +1,9 @@
-import { FormCambiarContraseña } from "@/components/auth/FormCambiarContrasena";
+import { FormCambiarContrasena } from "@/components/auth/FormCambiarContrasena";
 export default function page() {
    
   return (
     <div className="flex justify-center items-center h-screen">
-        <FormCambiarContraseña />
+        <FormCambiarContrasena />
     </div>
   )
 }

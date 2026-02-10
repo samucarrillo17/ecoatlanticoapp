@@ -1,7 +1,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-export  function SkeletonCampañasVoluntarios() {
+export  function SkeletonCampanasVoluntarios() {
   return (
     <div className="space-y-4">
       {/* Event Card 1 */}

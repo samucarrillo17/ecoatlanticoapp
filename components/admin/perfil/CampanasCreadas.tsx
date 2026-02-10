@@ -20,7 +20,7 @@ interface PostContentProps {
   postInfo: PostType[]
 }
 
-export default function CampañasCreadas({postInfo}:PostContentProps) {
+export default function CampanasCreadas({postInfo}:PostContentProps) {
     const [selectedPost, setSelectedPost] = useState<PostType | null>(null);
     const [verDetalles, SetverDetalles] = useState(false)
     const [editar, Seteditar] = useState(false)
