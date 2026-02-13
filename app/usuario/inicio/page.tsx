@@ -16,8 +16,6 @@ import { SkeletonPost } from '@/components/inicio/SkeletonPost'
 
 
 export default async function page() {
-    
-
   return (
     <div>
       <main className="mx-auto max-w-3xl space-y-3">

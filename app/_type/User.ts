@@ -3,7 +3,8 @@ export type UserType = {
     email: string
     apellido: string
     telefono: string
-    universidad: string
+    universidad: string,
+    biografia:string,
     password: string
     rol: string
     estado: string,

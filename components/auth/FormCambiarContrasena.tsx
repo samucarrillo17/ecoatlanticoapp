@@ -63,10 +63,10 @@ export function FormCambiarContrasena() {
         setShowConfirmPassword(!showConfirmPassword)
     }
   return (
-   <Card className="border-2 border-brand-green/20">
-        <CardHeader className="justify-center">
-            <h1 className="text-brand-balance text-2xl font-bold">Nueva Contraseña</h1>
-            <p className="text-sm text-brand-balance text-center">Ingresa tu nueva contraseña</p>
+   <Card className="border-2 border-brand-green/20 w-100">
+        <CardHeader>
+            <h1 className="text-brand-balance text-2xl font-bold text-center">Nueva Contraseña</h1>
+            <p className="text-sm text-brand-balance text-center">Recuerda que la contraseña debe tener al menos 8 caracteres</p>
         </CardHeader>
         <CardContent>
                 <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
@@ -86,7 +86,7 @@ export function FormCambiarContrasena() {
 
                                 </ButtonGroup>
                             
-                            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                            {fieldState.invalid && <FieldError className="text-red-500 text-sm" errors={[fieldState.error]} />}
                         </Field>
                     )}
                     />

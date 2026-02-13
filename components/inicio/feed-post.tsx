@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Heart, MessageCircle, Share2, MapPin, Calendar, Users, Check, BadgeCheck, Timer, ShieldCheck, User, Loader, LoaderCircleIcon } from "lucide-react"
+import { Heart, MessageCircle, Share2, MapPin, Calendar, Users, Check, BadgeCheck, Timer, ShieldCheck, User, Loader, LoaderCircleIcon, Star } from "lucide-react"
 import Image from "next/image"
 import { Progress } from "../ui/progress"
 import { PostType } from "@/app/_type/Post"
@@ -113,22 +113,6 @@ export function FeedPost({ post }: FeedPostProps) {
       </CardHeader>
       <CardContent className="p-0">
         <div className="p-3">
-          {/* Actions */}
-          <div className="mb-3  ">
-            <div className="flex items-center gap-6 px-2">
-              <Button variant="ghost" size="icon-sm"  className="p-0 flex items-center gap-1">
-                <Heart className={`size-5 fill-brand-green text-brand-green}`} />
-                <span className="text-sm font-semibold">{10}</span>
-              </Button>
-              <Button variant="ghost" size="icon-sm" className="p-0 flex items-center gap-1">
-                <MessageCircle className="size-5" />
-                <span className="text-sm text-muted-foreground">{6}</span>
-              </Button>
-              <Button variant="ghost" size="icon-sm" className="p-0">
-                <Share2 className="size-5" />
-              </Button>
-            </div>
-          </div>
 
           {/* Title and description */}
           <div className="mb-3 text-brand-balance">
@@ -138,7 +122,7 @@ export function FeedPost({ post }: FeedPostProps) {
 
           {/* Event details */}
           <div className="mb-3 rounded-lg  bg-brand-beige/10 p-3 gap-3 border-2 border-brand-beige/30 text-sm  text-brand-balance">
-          {/* Horario, lugar y disponibilidad */}
+          {/* Horario, lugar,puntos impacto y disponibilidad */}
             <div className="flex justify-between text-xs mb-4">
       
               <div className="flex items-center gap-1 ">
@@ -164,6 +148,14 @@ export function FeedPost({ post }: FeedPostProps) {
                   <span className="font-semibold">{post.hora_inicio} - {post.hora_fin}</span>
                 </div>
               </div>
+
+              <div className="flex items-center gap-1 ">
+                <Star className="size-9 text-brand-blue bg-white rounded-lg border border-black/10 p-1"/>
+                <div className="flex flex-col">
+                  <p>Puntos impacto</p>
+                  <span className="font-semibold">{post.puntos_impacto} puntos</span>
+                </div>
+              </div>  
 
             </div>
             <div className="bg-brand-card p-4 rounded-lg border-black/10 border-2">

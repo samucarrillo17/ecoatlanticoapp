@@ -29,11 +29,13 @@ export default function notfound() {
       {/* Your Content/Components */}
       <div className="relative flex flex-col justify-center items-center h-screen">
         <div className="flex flex-col items-center gap-8">
-          <h1 className="text-xl md:text-3xl text-brand-green font-light">Lo sentimos, no encontramos esta pagina</h1>
-          <Button className="flex gap-2 items-center rounded-full border border-brand-green/30 hover:transform hover:scale-102 cursor-pointer" variant="outline">
-            <ArrowLeft className="size-4 text-brand-green" />
-            <Link href="/login" className="text-brand-green text-sm">Volver a casa</Link>
-          </Button>
+          <h1 className="text-xl md:text-2xl text-brand-green font-extralight">Lo sentimos, no encontramos esta pagina</h1>
+            <Link href="/" className="text-brand-green">
+              <Button className="flex gap-2 items-center rounded-full border border-brand-green/30 hover:transform hover:scale-105 cursor-pointer" variant="outline">
+                <ArrowLeft className="size-4 " />
+                Volver
+              </Button>
+          </Link>
         
         </div>
         

@@ -21,6 +21,9 @@ export async function Statsprofile() {
               <span className="text-xl font-bold">{puntosTotales}</span>
               <span className="text-xs text-muted-foreground">Impacto</span>
             </div>
-          </div>
+            <div>
+              
+            </div>
+    </div>
   )
 }

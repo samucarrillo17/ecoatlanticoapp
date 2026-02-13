@@ -61,7 +61,7 @@ export function LoginForm() {
   }
     
   return (
-    <Card className="border-2 border-brand-green/20 bg-brand-card md:w-100 ">
+    <Card className="border-2 border-brand-green/20 bg-brand-card md:w-100 w-full ">
       <CardHeader>
         <CardTitle className="text-brand-balance text-2xl">
           Iniciar sesión

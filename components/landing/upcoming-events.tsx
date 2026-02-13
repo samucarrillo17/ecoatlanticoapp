@@ -15,7 +15,7 @@ const events = [
     location: "Malecón del Río, Barranquilla",
     spots: "25 cupos disponibles",
     what: "protector solar, gorra, botella de agua",
-    image: "/LimpiezaRios.jpg",
+    image: "/LimpiezadeRios.jpg",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const events = [
     location: "Playa Salgar, Puerto Colombia",
     spots: "40 cupos disponibles",
     what: "protector solar, ropa cómoda, snacks",
-    image: "/LimpiezaPlaya.jpg",
+    image: "/LimpiezadePlaya.jpg",
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ const events = [
     location: "Ciénaga de Mallorquín",
     spots: "30 cupos disponibles",
     what: "ropa que pueda mojarse, repelente",
-    image: "/SiembraMaglar.jpg",
+    image: "/SiembradeMaglar.jpg",
   },
 ]
 

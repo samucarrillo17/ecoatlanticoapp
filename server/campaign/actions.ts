@@ -12,7 +12,7 @@ export const getAllPostInfo = async () => {
     const { data, error } = await supabase
         .from('campanas')
         .select('*')
-        .eq('creado_por', user?.id)
+        .match({ creado_por: user?.id, estado: 'programado' })
 
     if (error) {
         console.error('Error obteniendo la camapaña:', error.message)
@@ -296,4 +296,39 @@ export async function getVoluntariosPorCampana():Promise<CampanaConVoluntarios[]
 
   return dataFormateada 
   
+}
+
+export async function deletePost(id:string) {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  
+  if (!user) {
+    return { success: false, message: 'No autenticado' }
+  }
+  
+  try {
+    const [dataResponse, userResponse] = await Promise.all([
+      supabase
+        .from('campanas')
+        .update({ estado: 'inactivo' })
+        .eq('id', id),
+      supabase.auth.getUser()
+    ])
+    if (!userResponse.data.user) {
+      return { success: false, message: 'No autenticado' }
+    }
+
+      if (dataResponse.error) {
+        console.error('Error eliminando la campaña:', dataResponse.error.message)
+        return { success: false, message: 'Error al eliminar la campaña' }
+      }
+      revalidatePath('/dashboard/perfil')
+      return { success: true, message: 'Campaña eliminada correctamente' }
+    
+  } catch (error) {
+      console.error('Error general:', error)
+      return { success: false, message: 'Error inesperado' }
+  }
 }

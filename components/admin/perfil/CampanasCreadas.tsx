@@ -15,6 +15,7 @@ import { useState } from "react";
 import { VerDetallesDialog } from "./VerDetallesDialog";
 import { PostType } from "@/app/_type/Post";
 import { EditarDialog } from "./EditarDialog";
+import AlertEliminar from "./AlertEliminar";
 
 interface PostContentProps {
   postInfo: PostType[]
@@ -165,6 +166,14 @@ export default function CampanasCreadas({postInfo}:PostContentProps) {
             <EditarDialog
               editar={editar}
               Seteditar={Seteditar}
+              post={selectedPost}
+            />
+          )}
+
+          {selectedPost && (
+            <AlertEliminar
+              eliminar={eliminar}
+              Seteliminar={Seteliminar}
               post={selectedPost}
             />
           )}

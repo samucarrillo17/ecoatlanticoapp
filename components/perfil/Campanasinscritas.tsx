@@ -1,5 +1,4 @@
 import { getCampanasInscritas } from '@/server/user/actions'
-import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { formatDate } from '@/app/_helper/dateFormatter'

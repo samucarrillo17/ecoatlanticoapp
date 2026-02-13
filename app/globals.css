@@ -10,3 +10,12 @@
   --color-brand-balance: #1f4046
 }
 
+@media print {
+  @page {
+    size: landscape; /* Fuerza el PDF a ser horizontal */
+    margin: 0; /* Quita los bordes feos de la impresora (fecha, URL) */
+  }
+  body {
+    -webkit-print-color-adjust: exact; /* Asegura que los colores y fondos se vean bien */
+  }
+}

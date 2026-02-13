@@ -26,8 +26,6 @@ export const getProfileInfo = async () => {
 export async function updateUserProfile(data: UpdateUser) {
   const supabase = await createClient()
   
-  
-
   try {
 
     const [userResponse, dataResponse] = await Promise.all([
@@ -245,8 +243,6 @@ export async function confirmarAsistenciaLote(inscripcionIds: string[]) {
       }
     })
 
-    // Actualizar todas las inscripciones en una sola operación
-    // Nota: Supabase no soporta bulk update directo, así que usamos Promise.all
     const resultados = await Promise.all(
       actualizaciones.map(async (actualizacion) => {
         const { error } = await supabase

@@ -18,8 +18,6 @@ export function FormOlvideContrasena() {
     const { handleSubmit, formState: { isSubmitting }, register } = useForm<FormData>()
 
     const onSubmit = async (values: FormData) => {
-        const host = window.location.origin
-        
         const supabase = createClient()
         const { error } = await supabase.auth.resetPasswordForEmail(values.correo, {
             redirectTo: `${siteUrl}/auth/cambiar-contrasena`
@@ -67,6 +65,7 @@ export function FormOlvideContrasena() {
                                 }
                             })} 
                         />
+                        
                     </div>
                     
                     <Button 

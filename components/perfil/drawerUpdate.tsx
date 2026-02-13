@@ -45,6 +45,7 @@ import { logout, resetEmailPasswordConfirmation } from "@/server/auth/actions";
 import { FormController } from "../FormController";
 import { SelectWrapper } from "../SelectWrapper";
 import { Field, FieldError } from "../ui/field";
+import { Textarea } from "../ui/textarea";
 
 interface UpdateUserProps {
   profile: UserType
@@ -64,6 +65,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
       nombre: profile?.nombre || "",
       apellido: profile?.apellido || "",
       email: profile?.email || "",
+      biografia:profile?.biografia||"",
       telefono: profile?.telefono || "",
       universidad: profile?.universidad as any,
     },
@@ -255,7 +257,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
               inputProps={{
                   className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
               }}
-          />
+            />
 
             <FormController
               name="apellido"
@@ -265,7 +267,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
               inputProps={{
                   className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
               }}
-          />
+            />
 
             <FormController
               name="email"
@@ -275,7 +277,17 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
               inputProps={{
                   className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
               }}
-          />
+            />
+
+            <FormController
+              name="biografia"
+              control={form.control}
+              as={Textarea}
+              label="Biografia"
+              inputProps={{
+                  className: "border-brand-green/30  focus:ring-brand-green/20 h-20 resize-none "
+              }}
+            />
 
             <FormController
               name="telefono"
@@ -286,7 +298,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
                   type:"number",
                   className: "border-brand-green/30  focus:ring-brand-green/20 h-10 "
               }}
-          />
+            />
             <FormController
               name="universidad"
               control={form.control}
@@ -298,7 +310,7 @@ export function DrawerUpdate({ profile }: UpdateUserProps) {
                     value: university,
                   }))
               }}
-          />
+            />
             <Button className="bg-brand-green text-white cursor-pointer" type="button" onClick={HandleUpdatePassword}>
               Cambiar contraseña
             </Button>

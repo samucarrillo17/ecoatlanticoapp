@@ -34,20 +34,32 @@ export async  function PerfilHeaderAdmin() {
             </div>
                  <DrawerUpdate profile={profile} />
           </div>
+          <section className='px-3 space-y-5'>
+              {
+                profile.biografia && (
+                  <div>
+                    <span className='text-xs text-gray-300 font-medium'>Biografia</span>
+                    <p className='text-sm'>{profile?.biografia}</p>
+                  </div>
+                )
+              }
 
-          <div className="mb-4 space-y-2 text-md px-3">
-            <div className="flex items-center gap-2">
-              <University className="size-5 text-brand-green" />
-              <span className='text-brand-balance'>{profile?.universidad}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="size-5 text-brand-green" />
-              <span className='text-brand-balance'>Miembro desde el  {fechaRegistroFormateada} </span>
-            </div>
+              <div className="mb-4 space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <University className="size-5 text-brand-green" />
+                    <span className='text-brand-balance'>{profile?.universidad}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="size-5 text-brand-green" />
+                    <span className='text-brand-balance'>Miembro desde el  {fechaRegistroFormateada} </span>
+                  </div>
+              </div>
+          </section>
+          
           </div>
 
 
          
-        </div>
+        
   )
 }

@@ -6,6 +6,7 @@ export const UpdateSchema = z.object({
     nombre: z.string().min(2, "Ingresa un nombre válido"),
     email: z.email().min(5, "Ingresa un email válido"),
     apellido: z.string().min(2, "Ingresa un apellido válido"),
+    biografia:z.string().optional(),
     telefono: z.string().min(10, "Ingresa un número de telefono válido").max(15, "Ingresa un número de telefono válido"),
     universidad: z.enum(["Universidad Simon Bolivar","Universidad de la Costa","Universidad Autonoma","Universidad Metropolina","Universidad","Universidad Libre"],{message:"Selecciona una universidad"}),
 })
